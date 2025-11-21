@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ارائه ریاضی - سال نهم</title>
+  <style>
+    /* ==========================
+       پایه - فونت، رنگ‌ها، ری‌ست
+       ========================== */
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap');
+
+    :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --accent: #6ee7b7;
+      --accent-2: #60a5fa;
+      --muted: #94a3b8;
+      --glass: rgba(255, 255, 255, 0.03);
+      --glass-2: rgba(255, 255, 255, 0.04);
+      --success: #22c55e;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Vazirmatn', system-ui, Arial;
+      background: linear-gradient(180deg, #071021 0%, #08142a 50%, #0b1220 100%);
+      color: #e6eef8;
+      line-height: 1.6;
+    }
+
+    /* ==========================
+       صفحه‌بندی و ناوبری
+       ========================== */
+    .container {
+      max-width: 1100px;
+      margin: 28px auto;
+      padding: 20px
+    }
+
+    header {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center
+    }
+
+    .logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      color: #04263a
+    }
+
+    h1 {
+      font-size: 20px;
+      margin: 0
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    nav a {
+      padding: 8px 12px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid transparent;
+      transition: all .25s
+    }
+
+    nav a:hover {
+      color: var(--accent);
+      transform: translateY(-2px)
+    }
+
+    nav a.active {
+      background: linear-gradient(90deg, rgba(96, 165, 250, 0.06), rgba(110, 231, 183, 0.04));
+      color: var(--accent)
+    }
+
+    /* ==========================
+       کارت‌های موضوع
+       ========================== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 20px
+    }
+
+    .topic {
+      background: linear-gradient(180deg, var(--card), #061022);
+      border-radius: 14px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6);
+      position: relative;
+      overflow: hidden
+    }
+
+    .topic::after {
+      content: '';
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle at 30% 30%, rgba(96, 165, 250, 0.07), transparent 40%), radial-gradient(circle at 70% 70%, rgba(110, 231, 183, 0.05), transparent 30%);
+      transform: rotate(30deg)
+    }
+
+    .topic h2 {
+      margin: 0 0 6px 0;
+      font-size: 18px
+    }
+
+    .explain {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 10px
+    }
+
+    /* ==========================
+       مثال‌ها و لیست
+       ========================== */
+    .examples {
+      display: grid;
+      gap: 12px
+    }
+
+    .example {
+      background: var(--glass);
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .example .problem {
+      font-weight: 600
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center
+    }
+
+    .btn {
+      padding: 8px 12px;
+      border-radius: 9px;
+      border: none;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #04263a;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(41, 121, 255, 0.08);
+      transition: transform .15s
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid rgba(110, 231, 183, 0.12)
+    }
+
+    .btn:active {
+      transform: translateY(1px)
+    }
+
+    .solution {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px dashed rgba(255, 255, 255, 0.02);
+      display: none
+    }
+
+    .solution.show {
+      display: block;
+      animation: fadeIn .28s ease
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    /* ==========================
+       جعبه تعاملی ریاضی
+       ========================== */
+    .playground {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(8, 16, 30, 0.6), rgba(4, 8, 18, 0.6));
+      border: 1px solid rgba(255, 255, 255, 0.02)
+    }
+
+    .io {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap
+    }
+
+    .io input,
+    .io select {
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      background: transparent;
+      color: inherit
+    }
+
+    .result {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.02);
+      font-weight: 700
+    }
+
+    /* ==========================
+       فوتر و ریسپانسیو
+       ========================== */
+    footer {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center
+    }
+
+    @media (max-width:900px) {
+      .grid {
+        grid-template-columns: 1fr
+      }
+
+      .brand h1 {
+        font-size: 16px
+      }
+    }
+
+    /* ==========================
+       افکت‌های تزئینی خیلی زیاد
+       ========================== */
+    .ribbon {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      color: #012a3d;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 12px
+    }
+
+    .hint {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--muted);
+      font-size: 12px
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">سایت برای ارائه</div>
+        <div>
+          <h1>سایت ارائهٔ ریاضی — کلاس نهم</h1>
+          <div class="subtitle">۶ موضوع، هر موضوع ۴ مثال ساده و تعاملی — طراحی زیبا برای ارائه در کلاس</div>
+        </div>
+      </div>
+      <nav id="toc"></nav>
+    </header>
+
+    <!-- شبکه موضوعات -->
+    <main class="grid" id="mainGrid">
+      <!-- موضوعها: هر کدام توضیح و 4 مثال -->
+
+      <!-- 1. پیدا کردن چند عدد گنگ میان عدد صحیح و رادیکالی -->
+      <section class="topic" id="topic-1">
+        <div class="ribbon">موضوع 1</div>
+        <h2>پیدا کردن عدد گنگ میان عدد صحیح و رادیکالی</h2>
+        <div class="explain">اینجا یاد می‌گیریم چگونه عدد گنگ (ناآرمانی) را بین یک عدد صحیح و یک عدد شامل ریشه (مثل √2)
+          تشخیص دهیم و نمونه‌هایی ساده می‌بینیم.</div>
+        <div class="examples">
+          <div class="example">
+            <div class="problem">مثال 1: عددی بین 1 و √2 پیدا کن (اگر ممکن است)</div>
+            <div class="controls">
+              <button class="btn" onclick="showSol(1,0)">نمایش حل</button>
+              <button class="btn secondary" onclick="insertAnswer(1,0)">قرار دادن مثال پیشنهادی</button>
+            </div>
+            <div class="solution" id="sol-1-0">
+              توضیح: √2 ≈ 1.414. هر عددی بین 1 و 1.414 مانند 1.2 عدد گنگ نیست لزوماً؛ اما 1.3 = 13/10 گویا است. یک عدد
+              گنگ مشخص بین این دو: (1+√2)/2 ≈ 1.207 — اما این عدد ممکن است گنگ نباشد. راه ساده: عدد √2 − 0.1 ≈ 1.314 —
+              اگر می‌خواهیم گنگ انتخاب کنیم می‌توانیم از عدد √2/ (یک عدد گویا) استفاده کنیم. مثال پیشنهادیِ ساده برای
+              کلاس: عدد x = 1.3 را بررسی کنید و نشان دهید گویا است؛ سپس بگویید یک عدد گنگ بین این دو وجود دارد اما ساختن
+              مثال گنگ صریح نیاز به بکار بردن ترکیبات ریشه‌ای دارد.</div>
+          </div>
+
+          <div class="example">
+            <div class="problem">مثال 2: آیا 1.41 عدد گنگ بین 1 و √2 است؟</div>
+            <div class="controls"><button class="btn" onclick="showSol(1,1)">نمایش حل</button></div>
+            <div class="solution" id="sol-1-1">ح: 1.41 = 141/100 گویا است. پس گنگ نیست. برای گنگ بودن، نمایش کسری دقیق
+              با مخرج گویا نباید ممکن باشد.</div>
+          </div>
+
+          <div class="example">
+            <div class="problem">مثال 3: یک عدد گنگ بین 2 و √5 (≈2.236) پیدا کن.</div>
+            <div class="controls"><button class="btn" onclick="showSol(1,2)">نمایش حل</button></div>
+            <div class="solution" id="sol-1-2">ح: √5 ≈ 2.236. عددی مانند 2.22 = 222/100 گویا است. یک ساختار معروف: اگر a
+              و b عدد گویا باشند و √n گنگ، ترکیب a + b√n معمولاً گنگ است (مگر در حالات خاص). می‌توانید 2 + 0.1·(√5 − 2)
+              را در نظر بگیرید — معمولاً گنگ خواهد شد.</div>
+          </div>
+
+          <div class="example">
+            <div class="problem">مثال 4 (تعاملی): عدد x را وارد کن؛ بررسی کن آیا گویا نوشته شده؟</div>
+            <div class="playground">
+              <div class="io">
+                <input id="input-1-3" placeholder="مثلاً 1.41 یا (1+Math.sqrt(2))/2" />
+                <button class="btn" onclick="checkRational(1)">بررسی</button>
+              </div>
+              <div class="result" id="res-1-3">نتیجه نمایش داده می‌شود</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. قدر مطلق -->
+      <section class="topic" id="topic-2">
+        <div class="ribbon">موضوع 2</div>
+        <h2>قدر مطلق</h2>
+        <div class="explain">قدر مطلق عدد فاصله آن از صفر است. |a| = a اگر a ≥ 0 و |a| = −a اگر a &lt; 0. مثال‌های ساده
+          و تعاملی.</div>
+        <div class="examples">
+          <div class="example">
+            <div class="problem">مثال 1: |−5| = ؟</div>
+            <div class="controls"><button class="btn" onclick="showSol(2,0)">نمایش حل</button></div>
+            <div class="solution" id="sol-2-0">ح: |−5| = −(−5) = 5</div>
+          </div>
+          <div class="example">
+            <div class="problem">مثال 2: |3| = ؟</div>
+            <div class="controls"><button class="btn" onclick="showSol(2,1)">نمایش حل</button></div>
+            <div class="solution" id="sol-2-1">ح: |3| = 3</div>
+          </div>
+          <div class="example">
+            <div class="problem">مثال 3: |x| = 4; دو جواب ممکن برای x چیست؟</div>
+            <div class="controls"><button class="btn" onclick="showSol(2,2)">نمایش حل</button></div>
+            <div class="solution" id="sol-2-2">ح: اگر |x| = 4 آنگاه x = 4 یا x = −4</div>
+          </div>
+          <div class="example">
+            <div class="problem">مثال 4 (تعاملی): مقدار قدر مطلق عدد وارد شده را نشان بده</div>
+            <div class="playground">
+              <div class="io">
+                <input id="input-2-3" placeholder="عدد را اینجا وارد کن، مثلاً -2.7" />
+                <button class="btn" onclick="calcAbs()">محاسبه</button>
+              </div>
+              <div class="result" id="res-2-3"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. پیدا کردن چند کسر میان دو کسر -->
+      <section class="topic" id="topic-3">
+        <div class="ribbon">موضوع 3</div>
+        <h2>پیدا کردن چند کسر میان دو کسر</h2>
+        <div class="explain">برای پیدا کردن کسری بین دو کسر، می‌توان از میانگین یا روش درخت فراکشن‌ها استفاده کرد. در
+          اینجا روش میانگین ساده و روش وارد کردن مخرج‌های بزرگ‌تر را نشان می‌دهیم.</div>
+        <div class="examples">
+          <div class="example">
+            <div class="problem">مثال 1: یک کسر بین 1/3 و 1/2 پیدا کن.</div>
+            <div class="controls"><button class="btn" onclick="showSol(3,0)">نمایش حل</button></div>
+            <div class="solution" id="sol-3-0">ح: میانگین: (1/3 + 1/2)/2 = (2/6 + 3/6)/2 = (5/6)/2 = 5/12. پس 5/12 بین
+              1/3 و 1/2 است.</div>
+          </div>
+          <div class="example">
+            <div class="problem">مثال 2: دو کسر بین 2/5 و 3/5 پیدا کن.</div>
+            <div class="controls"><button class="btn" onclick="showSol(3,1)">نمایش حل</button></div>
+            <div class="solution" id="sol-3-1">ح: چون مخرج‌ها برابرند، کافیست صورت‌ها را ببینیم: 2/5 = 0.4 و 3/5 = 0.6.
+              یک کسر بین این دو (2.5)/5 = 5/10 = 1/2 و دیگری 9/20 = 0.45. راه ساده: تبدیل به مخرج 10 و تقسیم.</div>
+          </div>
+          <div class="example">
+            <div class="problem">مثال 3: با روش درخت Farey یک کسر بین 1/4 و 1/3 بیاب.</div>
+            <div class="controls"><button class="btn" onclick="showSol(3,2)">نمایش حل</button></div>
+            <div class="solution" id="sol-3-2">ح: میانی (1+1)/(4+3) = 2/7 ≈ 0.2857 که بین 1/4 (0.25) و 1/3 (≈0.333) است.
+            </div>
+          </div>
+          <div class="example">
+            <div class="problem">مثال 4 (تعاملی): وارد کن دو کسر و یک کسر بین آن‌ها بساز</div>
+            <div class="playground">
+              <div class="io">
+                <input id="a3" placeholder="صورت 1" style="width:80px" />
+                <input id="b3" placeholder="مخرج 1" style="width:80px" />
+                <input id="c3" placeholder="صورت 2" style="width:80px" />
+                <input id="d3" placeholder="مخرج 2" style="width:80px" />
+                <button class="btn" onclick="middleFraction()">میانگین کسر</button>
+              </div>
+              <div class="result" id="res-3-3"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. انواع کسرها -->
+      <section class="topic" id="topic-4">
+        <div class="ribbon">موضوع 4</div>
+        <h2>کسر: صحیح، ساده، مرکب</h2>
+        <div class="explain">کسر مختوم/صحیح (عدد صحیح و کسری)، کسر ساده و کسر مرکب/متناوب — مثال‌های ساده و تصویرسازی.
+        </div>
+        <div class="examples">
+          <div class="example">
+            <div class="problem">مثال 1: تبدیل 7/3 به عدد مخلوط (کسر مختوم)</div>
+            <div class="controls"><button class="btn" onclick="showSol(4,0)">نمایش حل</button></div>
+            <div class="solution" id="sol-4-0">ح: 7 ÷ 3 = 2 باقی‌مانده 1 ⇒ 2 و 1/3</div>
+          </div>
+          <div class="example">
+            <div class="problem">مثال 2: ساده کردن 8/12</div>
+            <div class="controls"><button class="btn" onclick="showSol(4,1)">نمایش حل</button></div>
+            <div class="solution" id="sol-4-1">ح: gcd(8,12)=4 ⇒ 8/12 = 2/3 (کسر ساده)</div>
+          </div>
+          <div class="example">
+            <div class="problem">مثال 3: نمایش 1/6 به صورت اعشاری دوره‌ای یا متناوب</div>
+            <div class="controls"><button class="btn" onclick="showSol(4,2)">نمایش حل</button></div>
+            <div class="solution" id="sol-4-2">ح: 1/6 = 0.1666... = 0.1(6) — قسمت متناوب = 6</div>
+          </div>
+          <div class="example">
+            <div class="problem">مثال 4 (تعاملی): وارد کن کسر و آن را ساده/مخلوط/اعشاری کن</div>
+            <div class="playground">
+              <div class="io">
+                <input id="num4" placeholder="صورت" style="width:100px" />
+                <input id="den4" placeholder="مخرج" style="width:100px" />
+                <button class="btn" onclick="analyzeFraction()">تحلیل</button>
+              </div>
+              <div class="result" id="res-4-3"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. نمایش مجموعه با اعضا -->
+      <section class="topic" id="topic-5">
+        <div class="ribbon">موضوع 5</div>
+        <h2>نمایش یک مجموعه با اعضایش</h2>
+        <div class="explain">مجموعه را با براکت { } و جدا کردن اعضا با کاما نمایش می‌دهیم. مثال‌ها و نمایش گرافیکی ساده
+          برای کلاس.</div>
+        <div class="examples">
+          <div class="example">
+            <div class="problem">مثال 1: مجموعهٔ عناصر {1,2,3}</div>
+            <div class="controls"><button class="btn" onclick="showSol(5,0)">نمایش توضیح</button></div>
+            <div class="solution" id="sol-5-0">این مجموعه سه عضو دارد: 1,2,3. ترتیب اهمیتی ندارد و تکرار نداریم.</div>
+          </div>
+          <div class="example">
+            <div class="problem">مثال 2: مجموعهٔ اعداد زوج کوچک‌تر از 10</div>
+            <div class="controls"><button class="btn" onclick="showSol(5,1)">نمایش توضیح</button></div>
+            <div class="solution" id="sol-5-1">{0,2,4,6,8}</div>
+          </div>
+          <div class="example">
+            <div class="problem">مثال 3: نمایش مجموعهٔ با تکرار داده‌ها (توجه: مجموعه تکرار را حذف می‌کند)</div>
+            <div class="controls"><button class="btn" onclick="showSol(5,2)">نمایش توضیح</button></div>
+            <div class="solution" id="sol-5-2">مثال: {1,2,2,3} = {1,2,3}</div>
+          </div>
+          <div class="example">
+            <div class="problem">مثال 4 (تعاملی): وارد کن اعضا (با کاما) و مجموعه را نمایش بده</div>
+            <div class="playground">
+              <div class="io"><input id="input-5-3" placeholder="مثلاً 1,2,2,3" style="width:240px" /><button
+                  class="btn" onclick="makeSet()">نمایش مجموعه</button></div>
+              <div class="result" id="res-5-3"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. اجتماع، اشتراک، تفاضل و برابری مجموعه‌ها -->
+      <section class="topic" id="topic-6">
+        <div class="ribbon">موضوع 6</div>
+        <h2>اجتماع ∪ ، اشتراک ∩ ، تفاضل \ ، و برابری مجموعه‌ها</h2>
+        <div class="explain">تعاریف و مثال‌های ساده از عملیات مجموعه‌ها و چک کردن برابری دو مجموعه.</div>
+        <div class="examples">
+          <div class="example">
+            <div class="problem">مثال 1: A={1,2,3}, B={2,3,4}. A ∪ B ؟</div>
+            <div class="controls"><button class="btn" onclick="showSol(6,0)">نمایش حل</button></div>
+            <div class="solution" id="sol-6-0">A ∪ B = {1,2,3,4}</div>
+          </div>
+          <div class="example">
+            <div class="problem">مثال 2: A ∩ B ؟</div>
+            <div class="controls"><button class="btn" onclick="showSol(6,1)">نمایش حل</button></div>
+            <div class="solution" id="sol-6-1">A ∩ B = {2,3}</div>
+          </div>
+          <div class="example">
+            <div class="problem">مثال 3: A \ B ؟ (عناصر A که در B نیست)</div>
+            <div class="controls"><button class="btn" onclick="showSol(6,2)">نمایش حل</button></div>
+            <div class="solution" id="sol-6-2">A \ B = {1}</div>
+          </div>
+          <div class="example">
+            <div class="problem">مثال 4 (تعاملی): دو مجموعه وارد کن — اجتماع، اشتراک، تفاضل، برابری بررسی شود</div>
+            <div class="playground">
+              <div class="io">
+                <input id="setA6" placeholder="مثلاً 1,2,3" style="width:160px" />
+                <input id="setB6" placeholder="مثلاً 2,3,4" style="width:160px" />
+                <button class="btn" onclick="analyzeSets()">محاسبه</button>
+              </div>
+              <div class="result" id="res-6-3"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>این سایت برای ارائهٔ کلاس نهم آماده شده — همهٔ مثال‌ها ساده و مناسب تدریس هستند.</footer>
+  </div>
+
+  <script>
+    // ==========================
+    // ایجاد فهرست خودکار (TOC)
+    // ==========================
+    (function createTOC() {
+      const toc = document.getElementById('toc');
+      const sections = document.querySelectorAll('.topic');
+      sections.forEach((s, i) => {
+        const a = document.createElement('a');
+        a.href = '#' + s.id; a.innerText = (i + 1) + '. ' + s.querySelector('h2').innerText;
+        if (i === 0) a.classList.add('active');
+        a.addEventListener('click', () => { document.querySelectorAll('nav a').forEach(x => x.classList.remove('active')); a.classList.add('active') });
+        toc.appendChild(a);
+      });
+    })();
+
+    // ==========================
+    // نمایش/پنهان کردن جواب
+    // ==========================
+    function showSol(topic, index) {
+      const id = `sol-${topic}-${index}`;
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.toggle('show');
+    }
+
+    // ==========================
+    // موضوع 1: بررسی گویا/گنگ (ساده)
+    // توجه: تشخیص گنگ بودن کلی سخت است؛ این ابزار فقط تشخیص‌های ساده می‌دهد
+    // ==========================
+    function checkRational(topic) {
+      const v = document.getElementById('input-1-3').value.trim();
+      const out = document.getElementById('res-1-3');
+      if (!v) { out.innerText = 'لطفاً یک عبارت وارد کنید'; return }
+      try {
+        // تلاش می‌کنیم مقدار عددی را محاسبه کنیم
+        const val = eval(v);
+        if (Number.isFinite(val)) {
+          // اگر ممیزی با تعداد رقم محدود باشد، احتمالاً گویاست
+          const s = String(val);
+          if (s.length > 15) { out.innerText = 'عدد بزرگ یا دقیق نیست؛ ممکن است گنگ باشد یا نمایش اعشاری کوتاهی شده.'; }
+          else {
+            out.innerText = `مقدار عددی ≈ ${val}. اگر نمایش اعشاری محدود دارد (مثل 1.41 = 141/100) احتمالاً گویاست.`
+          }
+        } else out.innerText = 'نتیجه عددی نیست.'
+      } catch (e) { out.innerText = 'خطا در خواندن عبارت — از ترکیب‌های امن ریاضی استفاده کنید.' }
+    }
+
+    function insertAnswer(topic, index) {
+      if (topic === 1 && index === 0) { document.getElementById('input-1-3').value = '(1+Math.sqrt(2))/2'; document.getElementById('res-1-3').innerText = 'مثال پیشنهادی گذاشته شد — سپس بررسی کنید.' }
+    }
+
+    // ==========================
+    // قدر مطلق
+    // ==========================
+    function calcAbs() {
+      const v = parseFloat(document.getElementById('input-2-3').value);
+      const out = document.getElementById('res-2-3');
+      if (Number.isNaN(v)) { out.innerText = 'عدد معتبر وارد کنید'; return }
+      out.innerText = `|${v}| = ${Math.abs(v)}`;
+    }
+
+    // ==========================
+    // کسر بین دو کسر — میانگین
+    // ==========================
+    function middleFraction() {
+      const a = parseInt(document.getElementById('a3').value);
+      const b = parseInt(document.getElementById('b3').value);
+      const c = parseInt(document.getElementById('c3').value);
+      const d = parseInt(document.getElementById('d3').value);
+      const out = document.getElementById('res-3-3');
+      if ([a, b, c, d].some(x => Number.isNaN(x) || x === 0 && (x === b || x === d))) { out.innerText = 'صورت و مخرج‌ها را درست وارد کنید (مخرج ≠ 0)'; return }
+      const val = (a / b + c / d) / 2;
+      // نمایش کسری ساده با ضرب مخرج
+      const num = a * d + c * b; const den = 2 * b * d;
+      function gcd(x, y) { return y ? gcd(y, x % y) : Math.abs(x) }
+      const g = gcd(num, den);
+      out.innerText = `کسر میانگین = ${num / g}/${den / g} ≈ ${val}`;
+    }
+
+    // ==========================
+    // کسرها - آنالیز
+    // ==========================
+    function gcd(a, b) { return b ? gcd(b, a % b) : Math.abs(a) }
+    function analyzeFraction() {
+      const n = parseInt(document.getElementById('num4').value);
+      const d = parseInt(document.getElementById('den4').value);
+      const out = document.getElementById('res-4-3');
+      if (Number.isNaN(n) || Number.isNaN(d) || d === 0) { out.innerText = 'صورت و مخرج صحیح وارد کنید و مخرج نباید صفر باشد'; return }
+      const g = gcd(n, d);
+      const sn = n / g; const sd = d / g;
+      const whole = Math.trunc(n / d);
+      const rem = Math.abs(n - whole * d);
+      const dec = (n / d);
+      out.innerHTML = `کسر ساده‌شده: ${sn}/${sd} <br> عدد مخلوط (اگر لازم): ${whole} و ${rem}/${sd} <br> نمایش اعشاری ≈ ${dec}`;
+    }
+
+    // ==========================
+    // مجموعه‌ها
+    // ==========================
+    function makeSet() {
+      const v = document.getElementById('input-5-3').value;
+      const out = document.getElementById('res-5-3');
+      if (!v.trim()) { out.innerText = 'چیزی وارد نکرده‌اید'; return }
+      const items = v.split(',').map(x => x.trim()).filter(x => x !== '');
+      const uniq = [...new Set(items)];
+      out.innerText = `{ ${uniq.join(', ')} }`;
+    }
+
+    // ==========================
+    // آنالیز مجموعه‌ها: اجتماع، اشتراک، تفاضل، برابری
+    // ==========================
+    function parseSet(s) {
+      if (!s) return [];
+      return [...new Set(s.split(',').map(x => x.trim()).filter(x => x !== ''))];
+    }
+    function analyzeSets() {
+      const A = parseSet(document.getElementById('setA6').value);
+      const B = parseSet(document.getElementById('setB6').value);
+      const out = document.getElementById('res-6-3');
+      const union = [...new Set([...A, ...B])];
+      const inter = A.filter(x => B.includes(x));
+      const diff = A.filter(x => !B.includes(x));
+      const equal = (A.length === B.length && A.every(x => B.includes(x)));
+      out.innerHTML = `A ∪ B = { ${union.join(', ')} }<br>A ∩ B = { ${inter.join(', ')} }<br>A \\ B = { ${diff.join(', ')} }<br>آیا A = B ؟ ${equal ? 'بله' : 'خیر'}`;
+    }
+
+  </script>
+</body>
+
+</html>
